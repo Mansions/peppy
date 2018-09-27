@@ -30,6 +30,7 @@ class token:
 		self.username = userUtils.getUsername(self.userID)
 		self.safeUsername = userUtils.getSafeUsername(self.userID)
 		self.privileges = userUtils.getPrivileges(self.userID)
+		self.owner = userUtils.isInPrivilegeGroup(self.userID, "Founder/Owner")
 		self.admin = userUtils.isInPrivilegeGroup(self.userID, "developer")\
 					 or userUtils.isInPrivilegeGroup(self.userID, "community manager")\
 					 or userUtils.isInPrivilegeGroup(self.userID, "chat mod")
@@ -487,7 +488,7 @@ class token:
 		:return:
 		"""
 		self.restricted = True
-		chat.sendMessage(glob.BOT_NAME, self.username, "Your account is currently in restricted mode. Please visit ripple's website for more information.")
+		chat.sendMessage(glob.BOT_NAME, self.username, "Your account is currently in restricted mode. Please visit Mansion's website for more information.")
 
 	def resetRestricted(self):
 		"""

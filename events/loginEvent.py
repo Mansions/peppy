@@ -116,7 +116,7 @@ def handle(tornadoRequest):
 			if expireDate-int(time.time()) <= 86400*3:
 				expireDays = round((expireDate-int(time.time()))/86400)
 				expireIn = "{} days".format(expireDays) if expireDays > 1 else "less than 24 hours"
-				responseToken.enqueue(serverPackets.notification("Your donor tag expires in {}! When your donor tag expires, you won't have any of the donor privileges, like yellow username, custom badge and discord custom role and username color! If you wish to keep supporting Ripple and you don't want to lose your donor privileges, you can donate again by clicking on 'Support us' on Ripple's website.".format(expireIn)))
+				responseToken.enqueue(serverPackets.notification("Your donor tag expires in {}! When your donor tag expires, you won't have any of the donor privileges, like yellow username, custom badge and discord custom role and username color! If you wish to keep supporting Mansions and you don't want to lose your donor privileges, you can donate again by clicking on 'Support us' on Mansions's website.".format(expireIn)))
 
 
 		# Set silence end UNIX time in token
@@ -140,14 +140,18 @@ def handle(tornadoRequest):
 
 		# Send login notification before maintenance message
 		if responseToken.admin:
-			responseToken.enqueue(serverPackets.notification("Thank you for being an admin on Verge, " + username))
+			responseToken.enqueue(serverPackets.notification("Thank you for being an admin on Mansions, " + username))
+		else if responseToken.owner:
+			responseToken.enqueue(serverPackets.notification("All Praise our lord and savior, " + username))
 		else:
-			if glob.conf.extra["type"] == "debug":
-				responseToken.enqueue(serverPackets.notification("Welcome to Verge!Debug, " + username))
+			if glob.conf.extra["type"] == "regular":
+				responseToken.enqueue(serverPackets.notification("Welcome to Mansions, " + username))
 			elif glob.conf.extra["type"] == "relax":
-				responseToken.enqueue(serverPackets.notification("Welcome to Verge!Relax, " + username))
+				responseToken.enqueue(serverPackets.notification("Welcome to Mansion's Relax Server, " + username))
+			elif glob.conf.extra["type"] == "alpha":
+				responseToken.enqueue(serverPackets.notification("Welcome to Mansions!Alpha, " + username))
 			else:
-				responseToken.enqueue(serverPackets.notification("Welcome to Verge, " + username))
+				responseToken.enqueue(serverPackets.notification("Welcome to Mansions, " + username))
 				
 		# Maintenance check
 		if glob.banchoConf.config["banchoMaintenance"]:
