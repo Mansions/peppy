@@ -108,7 +108,7 @@ class config:
 		self.config.set("server", "cikey", "changeme")
 
 		self.config.add_section("cheesegull")
-		self.config.set("cheesegull", "apiurl", "http://cheesegu.ll/api")
+		self.config.set("cheesegull", "apiurl", "http://storage.hatsunai.me/api")
 		self.config.set("cheesegull", "apikey", "")
 
 		self.config.add_section("debug")
@@ -134,7 +134,7 @@ class config:
 		self.config.add_section("irc")
 		self.config.set("irc", "enable", "1")
 		self.config.set("irc", "port", "6667")
-		self.config.set("irc", "hostname", "ripple")
+		self.config.set("irc", "hostname", "mansions")
 
 		self.config.add_section("localize")
 		self.config.set("localize", "enable", "1")
