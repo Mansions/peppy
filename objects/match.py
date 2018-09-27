@@ -669,7 +669,7 @@ class match:
 
 		# FokaBot is too busy
 		if to == 999:
-			chat.sendMessage(glob.BOT_NAME, froToken.username, "I would love to join your match, but I'm busy keeping ripple up and running. Sorry. Beep Boop.")
+			chat.sendMessage(glob.BOT_NAME, froToken.username, "I would love to join your match, but I'm busy keeping Mansion up and running. Sorry. Beep Boop.")
 
 		# Send message
 		message = "Come join my multiplayer match: \"[osump://{}/{} {}]\"".format(self.matchID, self.matchPassword.replace(" ", "_"), self.matchName)

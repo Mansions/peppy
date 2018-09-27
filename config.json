@@ -1,16 +1,16 @@
 {
-    "support-email": "support@verge.moe",
+    "support-email": "erencorn@gmail.com",
     "type": "debug",
     "faq":
     {
-        "rules": "Please make sure to check (Verge's rules)[http://osu.verge.moe/?p=23].",
+        "rules": "Please make sure to check (Mansion's rules)[http://osu.themansions.nl/?p=23].",
         "swearing": "Please don't abuse swearing",
         "spam": "Please don't spam",
-        "offend": "Verge don't offend other players",
-        "github": "(Verge's Github page!)[https://github.com/osuverge]",
-        "discord": "(Join Verge's Discord!)[https://discord.gg/0rJcZruIsA6rXuIx]",
-        "changelog": "Check the (changelog)[https://verge.moe/index.php?p=17] !",
-        "status": "Check the server status (here!)[https://verge.moe/index.php?p=27]",
+        "offend": "Don't offend other players",
+        "github": "(Mansion's Github page!)[https://github.com/Mansions]",
+        "discord": "(Join Mansion's Discord!)[https://discord.gg/EbbMmBR]",
+        "changelog": "Check the (changelog)[https://osu.themansions.nl/index.php?p=17] !",
+        "status": "Check the server status (here!)[https://osu.themansions.nl/index.php?p=27]",
         "english": "Please keep this channel in english.",
         "topic": "Can you please drop the topic and talk about something else?",
         "lines": "Please try to keep your sentences on a single line to avoid getting silenced."
