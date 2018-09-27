@@ -349,9 +349,9 @@ def systemStatus(fro, chan, message):
 		letsVersion = "\_(xd)_/"
 	else:
 		letsVersion = letsVersion.decode("utf-8")
-	msg = "pep.py bancho server v{}\n".format(glob.VERSION)
+	msg = "Mansion's Bancho Server v{}\n".format(glob.VERSION)
 	msg += "LETS scores server v{}\n".format(letsVersion)
-	msg += "made by the Ripple team\n"
+	msg += "Improved by Meliodas\n"
 	msg += "\n"
 	msg += "=== BANCHO STATS ===\n"
 	msg += "Connected users: {}\n".format(data["connectedUsers"])
@@ -563,9 +563,6 @@ def tillerinoAcc(fro, chan, message):
 
 def tillerinoLast(fro, chan, message):
 	try:
-		# Run the command in PM only
-		if chan.startswith("#"):
-			return False
 
 		data = glob.db.fetch("""SELECT beatmaps.song_name as sn, scores.*,
 			beatmaps.beatmap_id as bid, beatmaps.difficulty_std, beatmaps.difficulty_taiko, beatmaps.difficulty_ctb, beatmaps.difficulty_mania, beatmaps.max_combo as fc
@@ -1200,12 +1197,12 @@ commands = [
 		"callback": report
 	}, {
 		"trigger": "!help",
-		"response": "Click (here)[https://ripple.moe/index.php?p=16&id=4] for the full command list"
-	}, #{
-		#"trigger": "!ask",
-		#"syntax": "<question>",
-		#"callback": ask
-	#}, {
+		"response": "Click (here)[https://osu.themansions.nl/doc/4] for the full command list"
+	}, {
+		"trigger": "!ask",
+		"syntax": "<question>",
+		"callback": ask
+	}, {
 	 {
 		"trigger": "!map",
 		"syntax": "<rank/unrank/love> <set/map> <ID>",
