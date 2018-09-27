@@ -28,29 +28,7 @@ def handle(userToken, packetData):
 
 		# Some dank memes easter egg
 		memeTitles = [
-			"RWC 2020",
-			"Fokabot is a duck",
-			"Dank memes",
-			"1337ms Ping",
-			"Iscriviti a Xenotoze",
-			"...e i marò?",
-			"Superman dies",
-			"The brace is on fire",
-			"print_foot()",
-			"#FREEZEBARKEZ",
-			"Ripple devs are actually cats",
-			"Thank Mr Shaural",
-			"NEVER GIVE UP",
-			"T I E D  W I T H  U N I T E D",
-			"HIGHEST HDHR LOBBY OF ALL TIME",
-			"This is gasoline and I set myself on fire",
-			"Everyone is cheating apparently",
-			"Kurwa mac",
-			"TATOE",
-			"This is not your drama landfill.",
-			"I like cheese",
-			"NYO IS NOT A CAT HE IS A DO(N)G",
-			"Datingu startuato"
+			"Ain't rape if you enjoy it."
 		]
 
 		# Set match name
