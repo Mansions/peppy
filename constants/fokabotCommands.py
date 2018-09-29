@@ -1198,11 +1198,11 @@ commands = [
 	}, {
 		"trigger": "!help",
 		"response": "Click (here)[https://osu.themansions.nl/doc/4] for the full command list"
-	}, {
-		"trigger": "!ask",
-		"syntax": "<question>",
-		"callback": ask
-	}, {
+	}, #{
+		#"trigger": "!ask",
+		#"syntax": "<question>",
+		#"callback": ask
+	#}, {
 	 {
 		"trigger": "!map",
 		"syntax": "<rank/unrank/love> <set/map> <ID>",
@@ -1336,7 +1336,7 @@ commands = [
 	#	"callback": tillerinoAcc,
 	#	"syntax": "<accuarcy>"
 	#}
-
+]
 
 # Commands list default values
 for cmd in commands:
