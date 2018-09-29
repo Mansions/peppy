@@ -1336,7 +1336,7 @@ commands = [
 	#	"callback": tillerinoAcc,
 	#	"syntax": "<accuarcy>"
 	#}
-]
+
 
 # Commands list default values
 for cmd in commands:
