@@ -139,16 +139,14 @@ def handle(tornadoRequest):
 			raise exceptions.banchoRestartingException()
 
 		# Send login notification before maintenance message
-		if responseToken.admin:
-			responseToken.enqueue(serverPackets.notification("Thank you for being an admin on Mansions, " + username))
-
+		if responseToken.owner:
+			responseToken.enqueue(serverPackets.notification("All Praise our lord and savior, " + username))
+			
 		else:
 			if glob.conf.extra["type"] == "regular":
 				responseToken.enqueue(serverPackets.notification("Welcome to Mansions, " + username))
 			elif glob.conf.extra["type"] == "relax":
-				responseToken.enqueue(serverPackets.notification("Welcome to Mansion's Relax Server, " + username))
-			elif responseToken.owner:
-				responseToken.enqueue(serverPackets.notification("All Praise our lord and savior, " + username))
+				responseToken.enqueue(serverPackets.notification("Welcome to Mansion's Relax Server, " + username)) 
 			else:
 				responseToken.enqueue(serverPackets.notification("Welcome to Mansions, " + username))
 				
