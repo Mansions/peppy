@@ -90,7 +90,7 @@ class config:
 		self.config.add_section("db")
 		self.config.set("db", "host", "localhost")
 		self.config.set("db", "username", "root")
-		self.config.set("db", "password", "")
+		self.config.set("db", "password", "meme")
 		self.config.set("db", "database", "ripple")
 		self.config.set("db", "workers", "4")
 
@@ -108,7 +108,7 @@ class config:
 		self.config.set("server", "cikey", "changeme")
 
 		self.config.add_section("cheesegull")
-		self.config.set("cheesegull", "apiurl", "http://storage.hatsunai.me/api")
+		self.config.set("cheesegull", "apiurl", "http://mirror/api")
 		self.config.set("cheesegull", "apikey", "")
 
 		self.config.add_section("debug")
