@@ -147,6 +147,10 @@ def handle(tornadoRequest):
 				responseToken.enqueue(serverPackets.notification("Welcome to Mansions, " + username))
 			elif glob.conf.extra["type"] == "relax":
 				responseToken.enqueue(serverPackets.notification("Welcome to Mansion's Relax Server, " + username)) 
+			elif glob.conf.extra["type"] == "auto":
+				responseToken.enqueue(serverPackets.notification("Welcome to Mansion's Relax Server, " + username)) 
+			elif glob.conf.extra["type"] == "arcade":
+				responseToken.enqueue(serverPackets.notification("Welcome to Mansion's Relax Server, " + username)) 		
 			else:
 				responseToken.enqueue(serverPackets.notification("Welcome to Mansions, " + username))
 				
