@@ -19,6 +19,7 @@ from objects import fokabot
 from objects import glob
 from helpers import chatHelper as chat
 from common.web import cheesegull
+from dhooks.discord_hooks import Webhook
 
 """
 Commands callbacks
@@ -37,6 +38,13 @@ TODO: Change False to None, because False doesn't make any sense
 def instantRestart(fro, chan, message):
 	glob.streams.broadcast("main", serverPackets.notification("We are restarting Bancho. Be right back!"))
 	systemHelper.scheduleShutdown(0, True, delay=5)
+	
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name="Elizabeth", icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="http://themansions.nl/u/999")
+	embed.set_title(title="{} has restarted bancho!".format(fro))
+
+	embed.post()
 	return False
 
 def faq(fro, chan, message):
@@ -90,6 +98,11 @@ def moderated(fro, chan, message):
 
 		# Turn on/off moderated mode
 		glob.channels.channels[chan].moderated = enable
+		url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+		embed = Webhook(url, color=123123)
+		embed.set_author(name="Elizabeth", icon='https://a.themansions.nl/999.png', url="http://themansions.nl/u/999")
+		embed.set_title(title="{} has set #osu to moderated mode!".format(fro))
+		embed.post()
 		return "This channel is {} in moderated mode!".format("now" if enable else "no longer")
 	except exceptions.moderatedPMException:
 		return "You are trying to put a private chat in moderated mode. Are you serious?!? You're fired."
@@ -125,6 +138,11 @@ def kick(fro, chan, message):
 		i.kick()
 
 	# Bot response
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(target), url="http://themansions.nl/u/{}".format(target))
+	embed.set_title(title="{} has kicked {} of the server!".format(fro,target))
+	embed.post()
 	return "{} has been kicked from the server.".format(target)
 
 def fokabotReconnect(fro, chan, message):
@@ -134,6 +152,12 @@ def fokabotReconnect(fro, chan, message):
 
 	# Fokabot is not connected, connect it
 	fokabot.connect()
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=glob.BOT_NAME, icon='https://a.themansions.nl/{}'.format(glob.BOT_NAME), url="http://themansions.nl/u/{}".format(glob.BOT_NAME))
+	embed.set_title(title="{} has succesfully reconnected to the server!".format(glob.BOT_NAME))
+	embed.post()
+
 	return False
 
 def silence(fro, chan, message):
@@ -150,6 +174,7 @@ def silence(fro, chan, message):
 	# Get target user ID
 	targetUserID = userUtils.getIDSafe(target)
 	userID = userUtils.getID(fro)
+	silencer = userUtils.getUsername(fro)
 
 	# Make sure the user exists
 	if not targetUserID:
@@ -182,6 +207,13 @@ def silence(fro, chan, message):
 
 	# Log message
 	msg = "{} has been silenced for the following reason: {}".format(target, reason)
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_title(title="{} has silenced {}!".format(fro, target))
+	embed.add_field(name='Reason:',value='{}'.format(reason))
+	embed.add_field(name='Length:',value='{} Seconds'.format(silenceTime))
+	embed.post()
 	return msg
 
 def removeSilence(fro, chan, message):
@@ -228,6 +260,12 @@ def ban(fro, chan, message):
 		targetToken.enqueue(serverPackets.loginBanned())
 
 	log.rap(userID, "has banned {}".format(target), True)
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_title(title="{} has banned {}!".format(fro, target))
+	embed.add_field(name='RIP I guess..')
+	embed.post()
 	return "RIP {}. You will not be missed.".format(target)
 
 def unban(fro, chan, message):
@@ -246,6 +284,12 @@ def unban(fro, chan, message):
 	userUtils.unban(targetUserID)
 
 	log.rap(userID, "has unbanned {}".format(target), True)
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_title(title="{} has unbanned {}!".format(fro, target))
+	embed.add_field(name='Welcome back!')
+	embed.post()
 	return "Welcome back {}!".format(target)
 
 def restrict(fro, chan, message):
@@ -269,6 +313,13 @@ def restrict(fro, chan, message):
 		targetToken.setRestricted()
 
 	log.rap(userID, "has put {} in restricted mode".format(target), True)
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_title(title="{} has restricted {}!".format(fro, target))
+	embed.add_field(name='Reason:',value='{}'.format(reason))
+	embed.add_field(name='Bye bye {}. See you later, maybe.'.format(target))
+	embed.post()
 	return "Bye bye {}. See you later, maybe.".format(target)
 
 def unrestrict(fro, chan, message):
@@ -287,7 +338,13 @@ def unrestrict(fro, chan, message):
 	userUtils.unrestrict(targetUserID)
 
 	log.rap(userID, "has removed restricted mode from {}".format(target), True)
-	return "Welcome back {}!".format(target)
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_title(title='{} has unrestricted {}!'.format(fro, target))
+	embed.add_field(name='Welcome back {}!'.format(target))
+	embed.post()
+	return 'Welcome back {}!'.format(target)
 
 def restartShutdown(restart):
 	"""Restart (if restart = True) or shutdown (if restart = False) pep.py safely"""
@@ -296,9 +353,21 @@ def restartShutdown(restart):
 	return msg
 
 def systemRestart(fro, chan, message):
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name='Elizabeth', icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="https://themansions.nl/u/999")
+	embed.set_title(title='{} has initiated a system restart!'.format(fro))
+	embed.add_field(name='We are performing some maintenance. Bancho will restart in 5 seconds. Thank you for your patience.')
+	embed.post()
 	return restartShutdown(True)
 
 def systemShutdown(fro, chan, message):
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name='Elizabeth', icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="https://themansions.nl/u/999")
+	embed.set_title(title='{} has initiated a system shutdown!'.format(fro))
+	embed.add_field(name='We are performing some maintenance. Bancho will shutdown in 5 seconds. Thank you for your patience.')
+	embed.post()
 	return restartShutdown(False)
 
 def systemReload(fro, chan, message):
@@ -363,7 +432,6 @@ def systemStatus(fro, chan, message):
 	msg += "RAM: {}GB/{}GB\n".format(data["usedMemory"], data["totalMemory"])
 	if data["unix"]:
 		msg += "Load average: {}/{}/{}\n".format(data["loadAverage"][0], data["loadAverage"][1], data["loadAverage"][2])
-
 	return msg
 
 
@@ -683,18 +751,21 @@ def updateBeatmap(fro, chan, message):
 def report(fro, chan, message):
 	msg = ""
 	try:
+		for i in message:
+			i = i.lower()
+		target = message[0]
+		reason = ' '.join(message[1:])
 		# TODO: Rate limit
 		# Regex on message
-		reportRegex = re.compile("^(.+) \((.+)\)\:(?: )?(.+)?$")
-		result = reportRegex.search(" ".join(message))
 
 		# Make sure the message matches the regex
-		if result is None:
+		if reason is None:
 			raise exceptions.invalidArgumentsException()
 
 		# Get username, report reason and report info
-		target, reason, additionalInfo = result.groups()
 		target = chat.fixUsernameForBancho(target)
+		name = chat.fixUsernameForBancho(fro)
+		uid = userUtils.getID(fro)
 
 		# Make sure the target is not foka
 		if target.lower() == glob.BOT_NAME.lower():
@@ -705,10 +776,6 @@ def report(fro, chan, message):
 		if targetID == 0:
 			raise exceptions.userNotFoundException()
 
-		# Make sure that the user has specified additional info if report reason is 'Other'
-		if reason.lower() == "other" and additionalInfo is None:
-			raise exceptions.missingReportInfoException()
-
 		# Get the token if possible
 		chatlog = ""
 		token = glob.tokens.getTokenFromUsername(userUtils.safeUsername(target), safe=True)
@@ -716,21 +783,27 @@ def report(fro, chan, message):
 			chatlog = token.getMessagesBufferString()
 
 		# Everything is fine, submit report
-		glob.db.execute("INSERT INTO reports (id, from_uid, to_uid, reason, chatlog, time) VALUES (NULL, %s, %s, %s, %s, %s)", [userUtils.getID(fro), targetID, "{reason} - ingame {info}".format(reason=reason, info="({})".format(additionalInfo) if additionalInfo is not None else ""), chatlog, int(time.time())])
-		msg = "You've reported {target} for {reason}{info}. A Community Manager will check your report as soon as possible. Every !report message you may see in chat wasn't sent to anyone, so nobody in chat, but admins, know about your report. Thank you for reporting!".format(target=target, reason=reason, info="" if additionalInfo is None else " (" + additionalInfo + ")")
-		adminMsg = "{user} has reported {target} for {reason} ({info})".format(user=fro, target=target, reason=reason, info=additionalInfo)
+		glob.db.execute("INSERT INTO reports (id, from_username, name, content, open_time, update_time, status, response) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s)", [userUtils.getID(fro), target, reason, int(time.time()), int(time.time()), "0", "open"])
+		msg = "You've reported {target} for {reason}. Thank you for reporting! Your report will be checked by the admins of Mansions soon!".format(target=target, reason=reason)
+		adminMsg = "{user} has reported {target} for {reason}".format(user=fro, target=target, reason=reason)
 
 		# Log report in #admin and on discord
 		chat.sendMessage(glob.BOT_NAME, "#admin", adminMsg)
-		log.warning(adminMsg, discord="cm")
+
+		url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+		embed = Webhook(url, color=123123)
+		embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
+		embed.set_title(title='Has reported {}!'.format(target))
+		embed.add_field(name='Reason:',value='{}'.format(reason))
+		embed.set_image('https://a.themansions.nl/u/{}'.format(targetID))
+		embed.post()
+
 	except exceptions.invalidUserException:
 		msg = "Hello, {} here! You can't report me. I won't forget what you've tried to do. Watch out.".format(glob.BOT_NAME)
 	except exceptions.invalidArgumentsException:
-		msg = "Invalid report command syntax. To report an user, click on it and select 'Report user'."
+		msg = "Please specify a reason for the report."
 	except exceptions.userNotFoundException:
-		msg = "The user you've tried to report doesn't exist."
-	except exceptions.missingReportInfoException:
-		msg = "Please specify the reason of your report."
+		msg = "The user you've tried to report doesn't exist. If their username contains a space, use an underscore instead."
 	except:
 		raise
 	finally:
@@ -742,6 +815,83 @@ def report(fro, chan, message):
 				else:
 					token.enqueue(serverPackets.notification(msg))
 	return False
+
+def promoteUser(fro, chan, message): # Set a users privileges ingame
+	messages = [m.lower() for m in message]
+	target = message[0]
+	privilege = message[1]
+
+	targetUserID = userUtils.getIDSafe(target)
+	userID = userUtils.getID(fro)
+
+	if not targetUserID:
+		return "{}: user not found".format(target)
+
+	if privilege == 'user':
+		priv = 3
+	elif privilege == 'bat':
+		priv = 267
+	elif privilege == 'mod':
+		priv = 786763
+	elif privilege == 'tourney':
+		priv = 2097159
+	elif privilege == 'cm':
+		priv = 7262719
+	elif privilege == 'dev':
+		priv = 3145727
+	elif privilege == 'owner':
+		priv = 7340031
+	else:
+		return "Invalid rankname (bat/mod/tournamentstaff/admin/developer/owner)"
+
+	try:
+		glob.db.execute("UPDATE users SET privileges = %s WHERE id = %s LIMIT 1", [priv, targetUserID])
+	except:
+		return "An unknown error has occured while trying to set role."
+
+	# Log message
+	log.rap(userID, "set {} to {}.".format(target, privilege), True)
+	msg = "{}'s rank has been set to: {}".format(target, privilege)
+	chat.sendMessage(glob.BOT_NAME, "#announce", msg)
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
+	embed.set_title(title='{} had it''s rank been set to {}!'.format(target, privilege))
+	embed.post()
+	return msg
+
+def changeUsername(fro, chan, message): # Change a users username, ingame.
+	messages = [m.lower() for m in message]
+	target = message[0]
+	newUsername = message[1]
+
+	if target == glob.BOT_NAME.lower():
+		return "Nope."
+
+	# Grab userID & Token userUtils.safeUsername(target), safe=True, _all=True
+	userID = userUtils.getIDSafe(target)
+	tokens = glob.tokens.getTokenFromUsername(userUtils.safeUsername(target), safe=True, _all=True)
+	idkWhyICantUseThePreviousOne = glob.tokens.getTokenFromUsername(userUtils.safeUsername(target), safe=True)
+
+	# Change their username
+	userUtils.changeUsername(userID, target, newUsername)
+
+	# Ensure they are online (since it's only nescessary to kick/alert them if they're online), then do so if they are.
+	if len(tokens) == 0:
+		return "{} is not online".format(target)
+	idkWhyICantUseThePreviousOne.enqueue(serverPackets.notification("Your name has been changed to {}. Please relogin using that name.".format(newUsername)))
+
+	# Kick users
+	for i in tokens:
+		i.kick()
+
+	log.rap(userID, "has changed {}'s username to {}.".format(fro, newUsername))
+	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	embed = Webhook(url, color=123123)
+	embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
+	embed.set_title(title="{} name has been changed to {}!".format(userID, newUsername))
+	embed.post()
+	return "Name successfully changed. It might take a while to change the username if the user is online on Bancho."
 
 def multiplayer(fro, chan, message):
 	def getMatchIDFromChannel(chan):
@@ -1121,59 +1271,117 @@ def rtx(fro, chan, message):
 	userToken.enqueue(serverPackets.rtx(message))
 	return ":ok_hand:"
 
-def editMap(fro, chan, message): # Edit maps ranking status ingame. // Added by cmyui :)
-	messages = [m.lower() for m in message]
+def editMap(fro, chan, message): # cmyui's fixed version Eren was here o/
+	messages = [m.lower() for m in message]  #!map rank set 3298432874
 	rankType = message[0]
 	mapType = message[1]
 	mapID = message[2]
+	gameMode = message[3]
 
 	# Get persons username & ID
 	userID = userUtils.getID(fro)
 	name = userUtils.getUsername(userID)
-
-	# Figure out what to do
-	if rankType == 'rank':
-		rankTypeID = 2
-		freezeStatus = 1
-	elif rankType == 'love':
-		rankTypeID = 5
-		freezeStatus = 1
-	elif rankType == 'unrank':
-		rankTypeID = 0
-		freezeStatus = 0
+	privileges = userUtils.getPrivileges(userID)
 
 	# Grab beatmapData from db
 	beatmapData = glob.db.fetch("SELECT * FROM beatmaps WHERE beatmap_id = {} LIMIT 1".format(mapID))
 
-	if mapType == 'set':
-		glob.db.execute("UPDATE beatmaps SET ranked = {}, ranked_status_freezed = {} WHERE beatmapset_id = {} LIMIT 100".format(rankTypeID, freezeStatus, beatmapData["beatmapset_id"]))
-		if freezeStatus == 1:
-				glob.db.execute("""UPDATE scores s JOIN (SELECT userid, MAX(score) maxscore FROM scores JOIN beatmaps ON scores.beatmap_md5 = beatmaps.beatmap_md5 WHERE beatmaps.beatmap_md5 = (SELECT beatmap_md5 FROM beatmaps
-					WHERE beatmapset_id = {} LIMIT 1) GROUP BY userid) s2 ON s.score = s2.maxscore AND s.userid = s2.userid SET completed = 3""".format(beatmapData["beatmapset_id"]))
-	elif mapType == 'map':
-		glob.db.execute("UPDATE beatmaps SET ranked = {}, ranked_status_freezed = {} WHERE beatmap_id = {} LIMIT 1".format(rankTypeID, freezeStatus, mapID))
-		if freezeStatus == 1:
-				glob.db.execute("""UPDATE scores s JOIN (SELECT userid, MAX(score) maxscore FROM scores JOIN beatmaps ON scores.beatmap_md5 = beatmaps.beatmap_md5 WHERE beatmaps.beatmap_md5 = (SELECT beatmap_md5 FROM beatmaps
-					WHERE beatmap_id = {} LIMIT 1) GROUP BY userid) s2 ON s.score = s2.maxscore AND s.userid = s2.userid SET completed = 3""".format(beatmapData["beatmap_id"]))
-	else:
-		return "Please specify whether it is a set/map. eg: '!map unrank/rank/love set/map 123456'"
-	
-	# Announce / Log to AP logs when ranked status is changed
-	if rankType == "love":
-		log.rap(userID, "has {}d beatmap ({}): {} ({}).".format(rankType, mapType, beatmapData["song_name"], mapID), True)
-		if mapType == 'set':
-			msg = "{} has loved beatmap set: [https://osu.ppy.sh/s/{} {}]".format(name, beatmapData["beatmapset_id"], beatmapData["song_name"])
-		else:
-			msg = "{} has loved beatmap: [https://osu.ppy.sh/s/{} {}]".format(name, mapID, beatmapData["song_name"])
-	else:
-		log.rap(userID, "has {}ed beatmap ({}): {} ({}).".format(rankType, mapType, beatmapData["song_name"], mapID), True)
-		if mapType == 'set':
-			msg = "{} has {}ed beatmap set: [https://osu.ppy.sh/s/{} {}]".format(name, rankType, beatmapData["beatmapset_id"], beatmapData["song_name"])
-		else:
-			msg = "{} has {}ed beatmap: [https://osu.ppy.sh/s/{} {}]".format(name, rankType, mapID, beatmapData["song_name"])
+	# User is QAT
+	if privileges & 256 > 0:
 
-	chat.sendMessage(glob.BOT_NAME, "#nowranked", msg)
+		# Figure out what to do
+		if rankType == 'rank':
+			rankTypeID = 2
+			freezeStatus = 1
+		elif rankType == 'love':
+			rankTypeID = 5
+			freezeStatus = 1
+		elif rankType == 'unrank':
+			rankTypeID = 0
+			freezeStatus = 0
+		# SQL It should decrease lag now since it doesn't require a massive score query for sets.
+		if mapType == 'set':
+			glob.db.execute("UPDATE beatmaps SET ranked = {}, ranked_status_freezed = {}, rankedby = {} WHERE beatmapset_id = {} LIMIT 50".format(rankTypeID, freezeStatus, userID, beatmapData["beatmapset_id"]))
+		elif mapType == 'map':
+			glob.db.execute("UPDATE beatmaps SET ranked = {}, ranked_status_freezed = {}, rankedby = {} WHERE beatmap_id = {} LIMIT 1".format(rankTypeID, freezeStatus, userID, mapID ))
+		else:
+			return "Please specify whether it is a set/map. eg: '!map unrank/rank/love set/map 123456'"
+
+		# Discord webhook
+		url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+		embed = Webhook(url, color=123123)
+		embed.set_author(name=name, icon='http://a.themansions.nl/{}'.format(userID), url="http://osu.themansions.nl/u/{}".format(userID))
+		embed.set_image('https://assets.ppy.sh/beatmaps/{}/covers/cover.jpg?1522396856'.format(beatmapData["beatmapset_id"]))
+		embed.set_title(title="{}".format(beatmapData["song_name"]), url="http://osu.themansions.nl/b/{}".format(mapID))
+
+		# Announce / Log to AP logs when ranked status is changed
+		if rankType == "love":
+			log.rap(userID, "has {}d beatmap ({}): {} ({}) on gamemode {}".format(rankType, mapType, beatmapData["song_name"], mapID, gameMode), True)
+			embed.set_footer(text='Loved on', ts=True)
+			embed.add_field(name='This beatmap has been loved on gamemode {}.'.format(gameMode), value='** **')
+			if mapType == 'set':
+				msg = "{} has loved beatmap set: [https://osu.ppy.sh/s/{} {}] on gamemode {}".format(name, beatmapData["beatmapset_id"], beatmapData["song_name"], gameMode)
+			else:
+				msg = "{} has loved beatmap: [https://osu.ppy.sh/s/{} {}] on gamemode {}".format(name, mapID, beatmapData["song_name"], gameMode)
+		else:
+			log.rap(userID, "has {}ed beatmap ({}): {} ({}), on gamemode {}.".format(rankType, mapType, beatmapData["song_name"], mapID, gameMode), True)
+			embed.set_footer(text='{}ed on'.format(rankType), ts=True)
+			embed.add_field(name='This beatmap has been {}ed on gamemode {}'.format(rankType, gameMode), value='** **')
+			if mapType == 'set':
+				msg = "{} has {}ed beatmap set: [https://osu.ppy.sh/s/{} {}] on gamemode {}".format(name, rankType, beatmapData["beatmapset_id"], beatmapData["song_name"], gameMode)
+			else:
+				msg = "{} has {}ed beatmap: [https://osu.ppy.sh/s/{} {}] on gamemode {}".format(name, rankType, mapID, beatmapData["song_name"], gameMode)
+
+		chat.sendMessage(glob.BOT_NAME, "#announce", msg)
+	else:
+		# Ensure that the mapType is valid before continuing
+		if mapType == 'map' or mapType == 'set':
+			# Define the embed properties that do not require specific fixing due to loved
+
+			url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+			embed = Webhook(url, color=123123)
+			embed.set_author(name=name, icon='http://a.themansions.nl/{}'.format(userID), url="http://osu.themansions.nl/u/{}".format(userID))
+			embed.set_image('https://assets.ppy.sh/beatmaps/{}/covers/cover.jpg?1522396856'.format(beatmapData["beatmapset_id"]))
+			embed.set_title(title="{}".format(beatmapData["song_name"]), url="http://osu.themansions.nl/b/{}".format(mapID))
+
+			if rankType == "love":
+				embed.set_footer(text='requested for loved on', ts=True)
+				embed.add_field(name='This **{}** has been requested for **loved** by {} for gamemode {}.'.format(mapType, name, gameMode), value='** **')
+			elif rankType == "unrank" or rankType == "rank":
+				embed.set_footer(text='requested for {}ed on'.format(rankType), ts=True)
+				embed.add_field(name='This **{}** has been requested for **{}ed** by {} for **gamemode** {}.'.format(mapType, rankType, name, gameMode), value='** **')
+			else:
+				return "Please specify a valid ranked status (rank/unrank/love)"
+
+		else:
+			return "Please specify whether it is a set/map. eg: '!map unrank/rank/love set/map 123456'"
+
+		msg = "The {} has successfully been requested. The BN team will now begin voting on the map.".format(mapType)
+
+	# Actually post the embed & response
+	embed.post()
 	return msg
+
+def bloodcat(fro, chan, message):
+	try:
+		matchID = getMatchIDFromChannel(chan)
+	except exceptions.wrongChannelException:
+		matchID = None
+	try:
+		spectatorHostUserID = getSpectatorHostUserIDFromChannel(chan)
+	except exceptions.wrongChannelException:
+		spectatorHostUserID = None
+
+	if matchID is not None:
+		if matchID not in glob.matches.matches:
+			return "This match doesn't seem to exist... Or does it...?"
+		beatmapID = glob.matches.matches[matchID].beatmapID
+	else:
+		spectatorHostToken = glob.tokens.getTokenFromUserID(spectatorHostUserID, ignoreIRC=True)
+		if spectatorHostToken is None:
+			return "The spectator host is offline."
+		beatmapID = spectatorHostToken.beatmapID
+	return bloodcatMessage(beatmapID)
 
 """
 Commands list
@@ -1188,6 +1396,11 @@ commands = [
 	{
 		"trigger": "!roll",
 		"callback": roll
+	}, {
+		"trigger": "!priv",
+		"syntax": "<userID> <rank>",
+		"privileges": privileges.ADMIN_MANAGE_SERVERS,
+		"callback": promoteUser
 	}, {
 		"trigger": "!faq",
 		"syntax": "<name>",
@@ -1206,10 +1419,13 @@ commands = [
 	 {
 		"trigger": "!map",
 		"syntax": "<rank/unrank/love> <set/map> <ID>",
-		"privileges": privileges.ADMIN_MANAGE_BEATMAPS,
 		"callback": editMap
-	},
-	{
+	}, {
+		"trigger": "!changeusername",
+		"privileges": privileges.ADMIN_MANAGE_USERS,
+		"syntax": "<username> <newUsername>",
+		"callback": changeUsername
+	}, {
 		"trigger": "!mm00",
 		"callback": mm00
 	}, {
@@ -1226,6 +1442,13 @@ commands = [
 		"trigger": "!moderated",
 		"privileges": privileges.ADMIN_CHAT_MOD,
 		"callback": moderated
+	}, {
+		"trigger": "!bot reconnect",
+		"privileges": privileges.ADMIN_MANAGE_SERVERS,
+		"callback": fokabotReconnect
+	},  {
+		"trigger": "!bloodcat",
+		"callback": bloodcat
 	}, {
 		"trigger": "!kickall",
 		"privileges": privileges.ADMIN_MANAGE_SERVERS,
