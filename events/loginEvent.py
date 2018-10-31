@@ -11,6 +11,7 @@ from helpers import chatHelper as chat
 from helpers import countryHelper
 from helpers import locationHelper
 from objects import glob
+from dhooks.discord_hooks import Webhook
 
 
 def handle(tornadoRequest):
@@ -79,11 +80,21 @@ def handle(tornadoRequest):
 			if userUtils.verifyUser(userID, clientData):
 				# Valid account
 				log.info("Account {} verified successfully!".format(userID))
+				url = glob.conf.extra["webhook"]
+				embed = Webhook(url, color=123123)
+				embed.set_author(name=username, icon='https://a.themansions.nl/u/{}', url='http://osu.themansions.nl/u/{}'.format(userID, userID))
+				embed.set_title(title='{} Succesfully verified their account!'.format(username))
+				embed.post()
 				glob.verifiedCache[str(userID)] = 1
 				firstLogin = True
 			else:
 				# Multiaccount detected
 				log.info("Account {} NOT verified!".format(userID))
+				url = glob.conf.extra["webhook"]
+				embed = Webhook(url, color=123123)
+				embed.set_author(name=username, icon='https://a.themansions.nl/u/{}', url='http://osu.themansions.nl/u/{}'.format(userID, userID))
+				embed.set_title(title='We detected a multiaccount from {}!'.format(username))
+				embed.post()
 				glob.verifiedCache[str(userID)] = 0
 				raise exceptions.loginBannedException()
 
@@ -171,6 +182,11 @@ def handle(tornadoRequest):
 		responseToken.enqueue(serverPackets.userSupporterGMT(userSupporter, userGMT, userTournament))
 		responseToken.enqueue(serverPackets.userPanel(userID, True))
 		responseToken.enqueue(serverPackets.userStats(userID, True))
+		url = glob.conf.extra["webhook"]
+		embed = Webhook(url, color=123123)
+		embed.set_author(name=username, icon='https://a.themansions.nl/u/{}', url='http://osu.themansions.nl/u/{}'.format(userID, userID))
+		embed.set_title(title='{} has logged in!'.format(username))
+		embed.post()
 
 		# Channel info end (before starting!?! wtf bancho?)
 		responseToken.enqueue(serverPackets.channelInfoEnd())

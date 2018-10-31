@@ -5,6 +5,13 @@ from common.log import logUtils as log
 from constants import serverPackets
 from helpers import chatHelper as chat
 from objects import glob
+from dhooks.discord_hooks import Webhook
+from common.constants import privileges
+from common.log import logUtils as log
+from common.ripple import userUtils
+from constants import exceptions
+from helpers import countryHelper
+from helpers import locationHelper
 
 
 def handle(userToken, _=None, deleteToken=True):
@@ -54,4 +61,9 @@ def handle(userToken, _=None, deleteToken=True):
 			}))
 
 		# Console output
+		url = glob.conf.extra["webhook"]
+		embed = Webhook(url, color=123123)
+		embed.set_author(name=username, icon='https://a.themansions.nl/u/{}', url='http://osu.themansions.nl/u/{}'.format(userID, userID))
+		embed.set_title(title='{} has logged out!'.format(username))
+		embed.post()
 		log.info("{} has been disconnected. (logout)".format(username))

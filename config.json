@@ -1,6 +1,7 @@
 {
     "support-email": "erencorn@gmail.com",
     "type": "regular",
+    "webhook": "discord",
     "faq":
     {
         "rules": "Please make sure to check (Mansion's rules)[http://osu.themansions.nl/?p=23].",

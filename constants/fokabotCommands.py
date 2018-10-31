@@ -39,9 +39,9 @@ def instantRestart(fro, chan, message):
 	glob.streams.broadcast("main", serverPackets.notification("We are restarting Bancho. Be right back!"))
 	systemHelper.scheduleShutdown(0, True, delay=5)
 	
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name="Elizabeth", icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="http://themansions.nl/u/999")
+	embed.set_author(name="Elizabeth", icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="http://osu.themansions.nl/u/999")
 	embed.set_title(title="{} has restarted bancho!".format(fro))
 
 	embed.post()
@@ -98,9 +98,9 @@ def moderated(fro, chan, message):
 
 		# Turn on/off moderated mode
 		glob.channels.channels[chan].moderated = enable
-		url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+		url = glob.conf.extra["webhook"]
 		embed = Webhook(url, color=123123)
-		embed.set_author(name="Elizabeth", icon='https://a.themansions.nl/999.png', url="http://themansions.nl/u/999")
+		embed.set_author(name="Elizabeth", icon='https://a.themansions.nl/999.png', url="http://osu.themansions.nl/u/999")
 		embed.set_title(title="{} has set #osu to moderated mode!".format(fro))
 		embed.post()
 		return "This channel is {} in moderated mode!".format("now" if enable else "no longer")
@@ -138,9 +138,9 @@ def kick(fro, chan, message):
 		i.kick()
 
 	# Bot response
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(target), url="http://themansions.nl/u/{}".format(target))
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(target), url="http://osu.themansions.nl/u/{}".format(target))
 	embed.set_title(title="{} has kicked {} of the server!".format(fro,target))
 	embed.post()
 	return "{} has been kicked from the server.".format(target)
@@ -152,9 +152,9 @@ def fokabotReconnect(fro, chan, message):
 
 	# Fokabot is not connected, connect it
 	fokabot.connect()
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=glob.BOT_NAME, icon='https://a.themansions.nl/{}'.format(glob.BOT_NAME), url="http://themansions.nl/u/{}".format(glob.BOT_NAME))
+	embed.set_author(name=glob.BOT_NAME, icon='https://a.themansions.nl/{}'.format(glob.BOT_NAME), url="http://osu.themansions.nl/u/{}".format(glob.BOT_NAME))
 	embed.set_title(title="{} has succesfully reconnected to the server!".format(glob.BOT_NAME))
 	embed.post()
 
@@ -207,9 +207,9 @@ def silence(fro, chan, message):
 
 	# Log message
 	msg = "{} has been silenced for the following reason: {}".format(target, reason)
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://osu.themansions.nl/u/{}".format(targetUserID))
 	embed.set_title(title="{} has silenced {}!".format(fro, target))
 	embed.add_field(name='Reason:',value='{}'.format(reason))
 	embed.add_field(name='Length:',value='{} Seconds'.format(silenceTime))
@@ -260,9 +260,9 @@ def ban(fro, chan, message):
 		targetToken.enqueue(serverPackets.loginBanned())
 
 	log.rap(userID, "has banned {}".format(target), True)
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://osu.themansions.nl/u/{}".format(targetUserID))
 	embed.set_title(title="{} has banned {}!".format(fro, target))
 	embed.add_field(name='RIP I guess..')
 	embed.post()
@@ -284,9 +284,9 @@ def unban(fro, chan, message):
 	userUtils.unban(targetUserID)
 
 	log.rap(userID, "has unbanned {}".format(target), True)
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://osu.themansions.nl/u/{}".format(targetUserID))
 	embed.set_title(title="{} has unbanned {}!".format(fro, target))
 	embed.add_field(name='Welcome back!')
 	embed.post()
@@ -313,9 +313,9 @@ def restrict(fro, chan, message):
 		targetToken.setRestricted()
 
 	log.rap(userID, "has put {} in restricted mode".format(target), True)
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://osu.themansions.nl/u/{}".format(targetUserID))
 	embed.set_title(title="{} has restricted {}!".format(fro, target))
 	embed.add_field(name='Reason:',value='{}'.format(reason))
 	embed.add_field(name='Bye bye {}. See you later, maybe.'.format(target))
@@ -338,9 +338,9 @@ def unrestrict(fro, chan, message):
 	userUtils.unrestrict(targetUserID)
 
 	log.rap(userID, "has removed restricted mode from {}".format(target), True)
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://themansions.nl/u/{}".format(targetUserID))
+	embed.set_author(name=target, icon='https://a.themansions.nl/{}'.format(targetUserID), url="https://osu.themansions.nl/u/{}".format(targetUserID))
 	embed.set_title(title='{} has unrestricted {}!'.format(fro, target))
 	embed.add_field(name='Welcome back {}!'.format(target))
 	embed.post()
@@ -353,18 +353,18 @@ def restartShutdown(restart):
 	return msg
 
 def systemRestart(fro, chan, message):
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name='Elizabeth', icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="https://themansions.nl/u/999")
+	embed.set_author(name='Elizabeth', icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="https://osu.themansions.nl/u/999")
 	embed.set_title(title='{} has initiated a system restart!'.format(fro))
 	embed.add_field(name='We are performing some maintenance. Bancho will restart in 5 seconds. Thank you for your patience.')
 	embed.post()
 	return restartShutdown(True)
 
 def systemShutdown(fro, chan, message):
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name='Elizabeth', icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="https://themansions.nl/u/999")
+	embed.set_author(name='Elizabeth', icon='https://puu.sh/BTJo1/f8bcdd24f9.png', url="https://osu.themansions.nl/u/999")
 	embed.set_title(title='{} has initiated a system shutdown!'.format(fro))
 	embed.add_field(name='We are performing some maintenance. Bancho will shutdown in 5 seconds. Thank you for your patience.')
 	embed.post()
@@ -790,9 +790,9 @@ def report(fro, chan, message):
 		# Log report in #admin and on discord
 		chat.sendMessage(glob.BOT_NAME, "#admin", adminMsg)
 
-		url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+		url = glob.conf.extra["webhook"]
 		embed = Webhook(url, color=123123)
-		embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
+		embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://osu.themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
 		embed.set_title(title='Has reported {}!'.format(target))
 		embed.add_field(name='Reason:',value='{}'.format(reason))
 		embed.set_image('https://a.themansions.nl/u/{}'.format(targetID))
@@ -853,9 +853,9 @@ def promoteUser(fro, chan, message): # Set a users privileges ingame
 	log.rap(userID, "set {} to {}.".format(target, privilege), True)
 	msg = "{}'s rank has been set to: {}".format(target, privilege)
 	chat.sendMessage(glob.BOT_NAME, "#announce", msg)
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
+	embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://osu.themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
 	embed.set_title(title='{} had it''s rank been set to {}!'.format(target, privilege))
 	embed.post()
 	return msg
@@ -886,9 +886,9 @@ def changeUsername(fro, chan, message): # Change a users username, ingame.
 		i.kick()
 
 	log.rap(userID, "has changed {}'s username to {}.".format(fro, newUsername))
-	url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+	url = glob.conf.extra["webhook"]
 	embed = Webhook(url, color=123123)
-	embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
+	embed.set_author(name=fro, icon='https://a.themansions.nl/u/{}', url='http://osu.themansions.nl/u/{}'.format(userUtils.getID(fro), userUtils.getID(fro)))
 	embed.set_title(title="{} name has been changed to {}!".format(userID, newUsername))
 	embed.post()
 	return "Name successfully changed. It might take a while to change the username if the user is online on Bancho."
@@ -1308,7 +1308,7 @@ def editMap(fro, chan, message): # cmyui's fixed version Eren was here o/
 			return "Please specify whether it is a set/map. eg: '!map unrank/rank/love set/map 123456'"
 
 		# Discord webhook
-		url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+		url = glob.conf.extra["webhook"]
 		embed = Webhook(url, color=123123)
 		embed.set_author(name=name, icon='http://a.themansions.nl/{}'.format(userID), url="http://osu.themansions.nl/u/{}".format(userID))
 		embed.set_image('https://assets.ppy.sh/beatmaps/{}/covers/cover.jpg?1522396856'.format(beatmapData["beatmapset_id"]))
@@ -1338,7 +1338,7 @@ def editMap(fro, chan, message): # cmyui's fixed version Eren was here o/
 		if mapType == 'map' or mapType == 'set':
 			# Define the embed properties that do not require specific fixing due to loved
 
-			url = 'https://discordapp.com/api/webhooks/506992476087779328/KDvc6OVFTpkEdPyEzQRj8HOSF-EBziRcbbdP0kk4b1T7KuClA9G46HW426ZANk32ivBX'
+			url = glob.conf.extra["webhook"]
 			embed = Webhook(url, color=123123)
 			embed.set_author(name=name, icon='http://a.themansions.nl/{}'.format(userID), url="http://osu.themansions.nl/u/{}".format(userID))
 			embed.set_image('https://assets.ppy.sh/beatmaps/{}/covers/cover.jpg?1522396856'.format(beatmapData["beatmapset_id"]))
